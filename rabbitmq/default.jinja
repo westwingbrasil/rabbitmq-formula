@@ -1,0 +1,28 @@
+{% set defaults = {
+    'exchange': {
+        'vhost': '/',
+        'type': 'topic',
+    },
+    'queue': {
+        'vhost': '/',
+        'auto_delete': false,
+        'durable': true,
+        'arguments': '{}',
+    },
+    'binding': {
+        'vhost': '/',
+        'source': 'exchange',
+        'destination': 'queue',
+        'routing_key': '#',
+        'destination_type': 'queue',
+    },
+    'parameter': {
+        'vhost': '/',
+        'component': '',
+        'value': '{}',
+    },
+    'user': {
+    },
+    'user_to_remove': {
+    },
+} %}

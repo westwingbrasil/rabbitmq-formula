@@ -1,0 +1,10 @@
+{% macro settings(settings, default={}) %}
+  {% set new_settings = default %}
+  {% for option in settings %}
+    {% for key, value in option.items() %}
+      {% do new_settings.update({key: value}) %}
+    {% endfor %}
+  {% endfor %}
+
+  {{ new_settings }}
+{% endmacro %}
