@@ -8,21 +8,21 @@
     - require:
       - pkg: rabbitmq-server
       - file: rabbitmq_binary_tool_plugins
+      {% if loop.index0 != 0 %}
+      - rabbitmq_plugin: {{ salt["pillar.get"]("rabbitmq:plugin", {}).items()[loop.index0 - 1][0] }}
+      {% endif %}
+    {% if loop.last %}
+    - watch_in:
+      - service: rabbitmq-server
+    {% endif %}
 {% endfor %}
-
-rabbitmq_federation:
-  cmd.run:
-    - name: rabbitmq-plugins enable rabbitmq_federation && service rabbitmq-server restart
-    - unless: rabbitmq-plugins list -e -m | grep -w "rabbitmq_federation"
-    - require:
-      - rabbitmq_plugin: rabbitmq_management
 
 install_rabbit_management:
   cmd.run:
     - name: curl -k -L http://localhost:15672/cli/rabbitmqadmin -o /usr/local/bin/rabbitmqadmin
     - unless: test -f /usr/local/bin/rabbitmqadmin
     - require:
-      - cmd: rabbitmq_federation
+      - rabbitmq_plugin: {{ salt["pillar.get"]("rabbitmq:plugin", {}).items()[salt["pillar.get"]("rabbitmq:plugin", {}).items()|length() - 1][0] }}
 
 chmod_rabbit_management:
   file.managed:

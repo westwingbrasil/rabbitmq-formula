@@ -3,6 +3,12 @@ rabbitmq:
   plugin:
     rabbitmq_management:
       - enabled
+    rabbitmq_management_visualiser:
+      - enabled
+    rabbitmq_federation:
+      - enabled
+    rabbitmq_federation_management:
+      - enabled
   vhost:
     - /
     - live
